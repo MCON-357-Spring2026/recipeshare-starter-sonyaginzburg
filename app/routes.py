@@ -22,6 +22,12 @@ def get_recipe(recipe_id: int):
     recipe = Recipe.query.get_or_404(recipe_id)
     return jsonify(recipe.to_dict())
 
+@main.route("/api/recipes/<int:recipe_id>", methods=["DELETE"])
+def delete_recipe(recipe_id: int):
+    recipe = Recipe.query.get_or_404(recipe_id)
+    db.session.delete(recipe)
+    db.session.commit()
+    return jsonify({"message": f"Recipe {recipe_id} deleted successfully"}), 200
 
 @main.route("/api/recipes", methods=["POST"])
 def create_recipe():
